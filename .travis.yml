@@ -1,0 +1,22 @@
+language: node_js
+node_js:
+  - 13
+
+services:
+  - docker
+
+install:
+  - echo "nothing needs to be installed"
+
+before_script:
+  - echo "no tests"
+
+script:
+  - docker --version
+  - docker build -t udagram-reverse-proxy .
+  - docker tag simple-reverse-proxy sachinsharma1001/udagram-reverse-proxy:latest
+
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push sachinsharma1001/udagram-reverse-proxy
+
